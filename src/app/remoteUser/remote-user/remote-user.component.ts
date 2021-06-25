@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { faMicrophone, faMicrophoneSlash, faVideo, faVideoSlash, faPhoneSlash } from "@fortawesome/free-solid-svg-icons"
 
 @Component({
-  selector: 'app-screen',
-  templateUrl: './screen.component.html',
-  styleUrls: ['./screen.component.css']
+  selector: 'app-remote-user',
+  templateUrl: './remote-user.component.html',
+  styleUrls: ['./remote-user.component.css']
 })
-export class ScreenComponent implements OnInit {
+export class RemoteUserComponent implements OnInit {
 
   constructor() { }
 
