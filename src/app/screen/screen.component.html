@@ -1,0 +1,15 @@
+<div class="main d-flex align-content-start flex-wrap justify-content-evenly">
+    <div class="card mx-2 my-2" style="width: 24rem;" *ngFor="let user of allUser">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW5qnklVi6PdNhmFTfI2XJg2cqvHbbcMjFZg&usqp=CAU"
+            class="center card-img-top" alt="..." style="height: 200px; width: 200px; ">
+        <div class="card-body">
+            <div class="d-flex justify-content-between">
+                <strong>{{user.name}}</strong>
+                <span>
+                    <fa-icon [icon]="faVideoOn"></fa-icon> &nbsp;
+                    <fa-icon [icon]="faMicrophoneOn"></fa-icon>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

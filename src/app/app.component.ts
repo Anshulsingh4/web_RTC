@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AgoraRTCService } from "./services/agora-rtc.service"
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,20 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Project1';
+
+  constructor(private agoraRTC: AgoraRTCService) {
+    this.agoraRTC.createBothTracks().then(() => {
+      this.agoraRTC.streaming.next(true)
+      this.agoraRTC.join().then(
+        () => {
+          this.agoraRTC.publish()
+        }
+      )
+    }
+    )
+
+  }
+
+
+
 }

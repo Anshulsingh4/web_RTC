@@ -1,0 +1,15 @@
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+
+
+.main {
+  margin-bottom: 8px;
+  background-color: #a1a1a1;
+  height: 850px;
+  width: 1400px;
+  overflow-y: scroll;
+}
