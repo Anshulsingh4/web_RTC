@@ -26,6 +26,11 @@ export class AgoraRTCService {
     userId: null,
     appId: ""
   };
+  screenPublish: any = {
+    tracks: {
+      screen: {}
+    }
+  };
 
 
   constructor() {
@@ -71,6 +76,17 @@ export class AgoraRTCService {
     }
   }
 
+  screenjoin(): Promise<UID> {
+    if (this.screenPublish.client && environment) {
+      return this.screenPublish.client.join(
+        this.credentials.appId,
+        this.credentials.channelID,
+        this.credentials.token,
+
+      );
+    }
+  }
+
   async publish() {
     await this.publisher.client.setClientRole("host")
     return this.publisher.client.publish([
@@ -97,6 +113,25 @@ export class AgoraRTCService {
         remoteAudioTrack.play();
       }
     });
+  }
+
+  async createScreenTrack() {
+    this.screenPublish.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
+
+    await AgoraRTC.createScreenVideoTrack({
+      encoderConfig: "1080p_1",
+    }).then(localScreenTrack => {
+      this.screenPublish.tracks.screen = localScreenTrack;
+      console.log(localScreenTrack)
+    });
+
+    this.screenjoin().then(
+      () => {
+        this.screenPublish.client.publish([this.screenPublish.tracks.screen]);
+      }
+    )
+
+
   }
 
 

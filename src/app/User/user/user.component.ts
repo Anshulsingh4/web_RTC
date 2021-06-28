@@ -33,6 +33,7 @@ export class UserComponent implements OnInit, OnDestroy {
   loading = true;
 
   elementId: string;
+  screenId: string;
 
   allUser = [
     { name: 'Anshul Singh', email: 'anshul@bigsteptech.com' },
@@ -70,13 +71,34 @@ export class UserComponent implements OnInit, OnDestroy {
     this.mic = !this.mic
   }
 
-  onVideo() {
-    this.video = !this.video
+  async onVideo() {
+
+    if (this.video) {
+      await this.agoraRTC.createBothTracks();
+      this.agoraRTC.publisher.tracks.video.play(this.elementId);
+      // this.agoraRTC.publisher.tracks.audio.play();
+    }
+    else {
+      this.agoraRTC.publisher.tracks.video.close();
+      // this.agoraRTC.publisher.tracks.audio.close();
+    }
+    this.video = !this.video;
+
   }
 
-  onScreenShare() {
+  async onScreenShare() {
     this.screenShare = !this.screenShare
+    if (this.screenShare) {
+      await this.agoraRTC.createScreenTrack();
+      this.agoraRTC.screenPublish.tracks.screen.play(this.screenId);
+    }
+    else {
+      this.agoraRTC.screenPublish.tracks.screen.close();
+    }
+
+
   }
+
 
   onChat() {
     this.chatBtn = "btn-primary"
