@@ -33,7 +33,7 @@ export class AgoraRTCService {
     this.publisher.client = AgoraRTC.createClient({ mode: "live", codec: "vp8" });
     this.credentials = {
       channelID: "1234",
-      token: "006d6f5206f3a8444cbb936410c73aa74edIABdzMwxFGet+BcTp3sy6nSMqHJY/oTNpBO2E+2RatBS6KPg45sAAAAAEAAm+nFW6s3WYAEAAQDqzdZg",
+      token: null,
       userId: null,
       appId: environment.appId
     }
@@ -77,6 +77,26 @@ export class AgoraRTCService {
       this.publisher.tracks.audio,
       this.publisher.tracks.video,
     ]);
+  }
+
+  startCall() {
+    this.publisher.client.on("user-published", async (user, mediaType) => {
+      await this.publisher.client.subscribe(user, mediaType);
+      if (mediaType === "video") {
+        const remoteVideoTrack = user.videoTrack;
+        const newContainer = document.createElement("div");
+        newContainer.id = user.uid.toString();
+        newContainer.style.width = "640px";
+        newContainer.style.height = "480px";
+        document.body.append(newContainer);
+
+        remoteVideoTrack.play(newContainer);
+      }
+      if (mediaType === "audio") {
+        const remoteAudioTrack = user.audioTrack;
+        remoteAudioTrack.play();
+      }
+    });
   }
 
 

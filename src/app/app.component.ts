@@ -15,6 +15,7 @@ export class AppComponent {
       this.agoraRTC.join().then(
         () => {
           this.agoraRTC.publish()
+          this.agoraRTC.startCall()
         }
       )
     }
