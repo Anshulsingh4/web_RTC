@@ -18,6 +18,7 @@ export class AgoraRTCService {
   };
 
   public streaming = new EventEmitter<boolean>();
+  public _agora = new EventEmitter<any>();
 
   remoteStreams: any[] = [];
   credentials = {
@@ -68,6 +69,7 @@ export class AgoraRTCService {
 
   join(): Promise<UID> {
     if (this.publisher.client) {
+      this.registerClientEvents()
       return this.publisher.client.join(
         this.credentials.appId,
         this.credentials.channelID,
@@ -95,25 +97,24 @@ export class AgoraRTCService {
     ]);
   }
 
-  startCall() {
-    this.publisher.client.on("user-published", async (user, mediaType) => {
-      await this.publisher.client.subscribe(user, mediaType);
-      if (mediaType === "video") {
-        const remoteVideoTrack = user.videoTrack;
-        const newContainer = document.createElement("div");
-        newContainer.id = user.uid.toString();
-        newContainer.style.width = "640px";
-        newContainer.style.height = "480px";
-        document.body.append(newContainer);
-
-        remoteVideoTrack.play(newContainer);
-      }
-      if (mediaType === "audio") {
-        const remoteAudioTrack = user.audioTrack;
-        remoteAudioTrack.play();
-      }
-    });
-  }
+  // startCall() {
+  //   this.publisher.client.on("user-published", async (user, mediaType) => {
+  //     await this.publisher.client.subscribe(user, mediaType);
+  //     if (mediaType === "video") {
+  //       const remoteVideoTrack = user.videoTrack;
+  //       const newContainer = document.createElement("div");
+  //       newContainer.id = user.uid.toString();
+  //       newContainer.style.width = "640px";
+  //       newContainer.style.height = "480px";
+  //       document.body.append(newContainer);
+  //       remoteVideoTrack.play(newContainer);
+  //     }
+  //     if (mediaType === "audio") {
+  //       const remoteAudioTrack = user.audioTrack;
+  //       remoteAudioTrack.play();
+  //     }
+  //   });
+  // }
 
   async createScreenTrack() {
     this.screenPublish.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
@@ -134,6 +135,45 @@ export class AgoraRTCService {
 
   }
 
+
+
+  registerClientEvents() {
+    this.publisher.client.on('user-published', this.onUserPublished);
+    this.publisher.client.on('user-unpublished', this.onUserUnpublished);
+    this.publisher.client.on('user-joined', this.onUserJoined);
+    this.publisher.client.on('user-left', this.onUserLeft);
+  }
+
+  onUserPublished = async (user, mediaType) => {
+    const uid = user.uid;
+    await this.publisher.client.subscribe(user, mediaType);
+    // await this.publisher.client.setStreamFallbackOption(uid, 1);
+    if (mediaType === 'video') {
+      // this.setRemoteStreamType(uid, 'low');
+    }
+    if (mediaType === 'audio') {
+    }
+    let emitData = { type: 'user-published', user, mediaType };
+    this._agora.emit(emitData);
+  }
+
+  onUserUnpublished = async (user, mediaType) => {
+
+    await this.publisher.client.unsubscribe(user, mediaType);
+    if (mediaType === 'video') {
+      console.log('unsubscribe video success');
+    }
+    if (mediaType === 'audio') {
+      console.log('unsubscribe audio success');
+    }
+    let emitData = { type: 'user-unpublished', user, mediaType };
+    this._agora.emit(emitData);
+
+  };
+
+  onUserJoined() { }
+
+  onUserLeft() { }
 
 
 }

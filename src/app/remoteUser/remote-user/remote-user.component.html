@@ -1,9 +1,9 @@
 <div class="main d-flex align-content-start flex-wrap justify-content-evenly">
-    <div class="card mx-2 my-2" style="width: 24rem;" *ngFor="let user of allUser">
-        <div id={{elementId}} style="height: 300px; width: 100pxa;"></div>
-        <div class="card-body">
-            <div class="d-flex justify-content-between">
-                <strong>{{user.name}}</strong>
+    <div class="card mx-2 my-2" style="width: 24rem;" *ngFor="let user of allUser | keyvalue">
+        <div class="card-body" style="height: 200px; width: 200px;">
+
+            <div class="d-flex justify-content-between" id={{user.value.elementId}}>
+                <strong>{{user.value.name}}</strong>
                 <span>
                     <fa-icon [icon]="faVideoOn"></fa-icon> &nbsp;
                     <fa-icon [icon]="faMicrophoneOn"></fa-icon>
