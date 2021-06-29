@@ -67,13 +67,14 @@ export class AgoraRTCService {
     }
   }
 
-  join(): Promise<UID> {
+  join(userId): Promise<UID> {
     if (this.publisher.client) {
       this.registerClientEvents()
       return this.publisher.client.join(
         this.credentials.appId,
         this.credentials.channelID,
-        this.credentials.token
+        this.credentials.token,
+        userId
       );
     }
   }

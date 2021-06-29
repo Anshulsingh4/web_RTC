@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { AgoraRTCService } from "./services/agora-rtc.service"
 
 @Component({
@@ -9,20 +10,6 @@ import { AgoraRTCService } from "./services/agora-rtc.service"
 export class AppComponent {
   title = 'Project1';
 
-  constructor(private agoraRTC: AgoraRTCService) {
-    this.agoraRTC.createBothTracks().then(() => {
-      this.agoraRTC.streaming.next(true)
-      this.agoraRTC.join().then(
-        () => {
-          this.agoraRTC.publish()
-          // this.agoraRTC.startCall()
-        }
-      )
-    }
-    )
-
-  }
-
-
+  constructor() { }
 
 }

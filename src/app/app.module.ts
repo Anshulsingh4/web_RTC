@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { UserComponent } from './User/user/user.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RemoteUserComponent } from './remoteUser/remote-user/remote-user.component';
+import { VideMeetComponent } from './videoMeet/vide-meet/vide-meet.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UserComponent,
-    RemoteUserComponent
+    RemoteUserComponent,
+    VideMeetComponent
   ],
   imports: [
     BrowserModule,

@@ -50,7 +50,6 @@ export class UserComponent implements OnInit, OnDestroy {
     this.faVideoOn = faVideo;
     this.faPhoneSlash = faPhoneSlash
     this.elementId = `user-stream-1234`
-    this.initialiseStream()
   }
 
   private showPublisher() {
@@ -59,13 +58,6 @@ export class UserComponent implements OnInit, OnDestroy {
       this.loading = false;
     }
   }
-
-  async initialiseStream() {
-    this.agoraRTC.publisher.tracks.video.play(this.elementId);
-    // this.agoraRTC.publisher.tracks.audio.play()
-  }
-
-
 
   onMic() {
     this.mic = !this.mic

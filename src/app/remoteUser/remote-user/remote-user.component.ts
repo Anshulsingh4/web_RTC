@@ -60,14 +60,17 @@ export class RemoteUserComponent implements OnInit {
       // this.allUser[data.user.uid] .isAudioEnabled = true
     }
     if (data.mediaType === 'video') {
+      console.log(data.user.videoTrack, "LLLLLLL")
       this.allUser[data.user.uid].videoStream = data.user.videoTrack;
-      this.checkElementExistent(this.allUser[data.user.uid].elementId).then((ele) => {
-        setTimeout(() => {
-          this.allUser[data.user.uid].videoStream.play(this.allUser[data.user.uid].elementId)
-        }, 1000);
+      if (this.allUser[data.user.uid].videoStream) {
+        this.checkElementExistent(this.allUser[data.user.uid].elementId).then((ele) => {
+          setTimeout(() => {
+            this.allUser[data.user.uid].videoStream.play(this.allUser[data.user.uid].elementId)
+          }, 1000);
 
-      });
-      this.allUser[data.user.uid].isVideoEnabled = true
+        });
+        this.allUser[data.user.uid].isVideoEnabled = true
+      }
     }
     console.log(this.allUser, "Anshul Chouhan")
 
