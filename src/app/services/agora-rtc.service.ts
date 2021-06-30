@@ -47,7 +47,7 @@ export class AgoraRTCService {
 
   async createVideoTrack() {
     // Create a video track from the video captured by a camera.
-    this.publisher.tracks.video = await AgoraRTC.createCameraVideoTrack();
+    this.publisher.tracks.video = await AgoraRTC.createCameraVideoTrack({ encoderConfig: '360p_1' });
     console.log(this.publisher)
   }
 
@@ -98,30 +98,11 @@ export class AgoraRTCService {
     ]);
   }
 
-  // startCall() {
-  //   this.publisher.client.on("user-published", async (user, mediaType) => {
-  //     await this.publisher.client.subscribe(user, mediaType);
-  //     if (mediaType === "video") {
-  //       const remoteVideoTrack = user.videoTrack;
-  //       const newContainer = document.createElement("div");
-  //       newContainer.id = user.uid.toString();
-  //       newContainer.style.width = "640px";
-  //       newContainer.style.height = "480px";
-  //       document.body.append(newContainer);
-  //       remoteVideoTrack.play(newContainer);
-  //     }
-  //     if (mediaType === "audio") {
-  //       const remoteAudioTrack = user.audioTrack;
-  //       remoteAudioTrack.play();
-  //     }
-  //   });
-  // }
-
   async createScreenTrack() {
     this.screenPublish.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
 
     await AgoraRTC.createScreenVideoTrack({
-      encoderConfig: "1080p_1",
+      encoderConfig: "720p_1",
     }).then(localScreenTrack => {
       this.screenPublish.tracks.screen = localScreenTrack;
       console.log(localScreenTrack)

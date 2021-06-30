@@ -16,6 +16,7 @@ export class RemoteUserComponent implements OnInit {
   faMicrophoneOff;
   faVideoOn;
   faVideoOff;
+  cnt = 0;
 
   allUser = {
 
@@ -35,8 +36,8 @@ export class RemoteUserComponent implements OnInit {
     this.agoraRTC._agora.subscribe((data) => {
       switch (data.type) {
         case 'user-published': this.addRemoteUser(data)
-
-        case "user-unpublished": this.removeRemoteUser(data)
+          break;
+        // case "user-unpublished": this.removeRemoteUser(data)
       }
     })
   }
@@ -53,22 +54,37 @@ export class RemoteUserComponent implements OnInit {
       videoStream: null,
       audioStream: null
     }
+    this.cnt++;
+    console.log(this.cnt, "Hello")
+
     this.allUser[data.user.uid] = userData;
     if (data.mediaType === 'audio') {
       this.allUser[data.user.uid].audioStream = data.user.audioTrack;
-      // this.allUser[data.user.uid] .audioStream.play()
-      // this.allUser[data.user.uid] .isAudioEnabled = true
+      // this.allUser[data.user.uid].audioStream.play()
+      // this.allUser[data.user.uid].isAudioEnabled = true
     }
     if (data.mediaType === 'video') {
       console.log(data.user.videoTrack, "LLLLLLL")
       this.allUser[data.user.uid].videoStream = data.user.videoTrack;
       if (this.allUser[data.user.uid].videoStream) {
-        this.checkElementExistent(this.allUser[data.user.uid].elementId).then((ele) => {
-          setTimeout(() => {
-            this.allUser[data.user.uid].videoStream.play(this.allUser[data.user.uid].elementId)
-          }, 1000);
+        try {
+          this.checkElementExistent(this.allUser[data.user.uid].elementId).then((ele) => {
+            setTimeout(() => {
+              this.allUser[data.user.uid].videoStream.play(this.allUser[data.user.uid].elementId)
+            }, 5000);
 
-        });
+
+          });
+        }
+        catch (err) {
+          console.log(err, "DOM ERROR")
+          setTimeout(
+            () => {
+              // this.allUser[data.user.uid].videoStream.play(this.allUser[data.user.uid].elementId)
+            }
+            , 1000)
+        }
+
         this.allUser[data.user.uid].isVideoEnabled = true
       }
     }
@@ -93,8 +109,8 @@ export class RemoteUserComponent implements OnInit {
     });
   }
 
-  removeRemoteUser(data) {
+  // removeRemoteUser(data) {
 
-  }
+  // }
 
 }

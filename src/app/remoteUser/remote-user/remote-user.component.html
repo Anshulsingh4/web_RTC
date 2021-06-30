@@ -1,7 +1,7 @@
 <div class="main d-flex align-content-start flex-wrap">
     <!-- d-flex align-content-start flex-wrap justify-content-evenly -->
-    <div class="card mx-2 my-2" style="width: 24rem;" *ngFor="let user of allUser | keyvalue">
-        <div id={{user.value.elementId}} style="height: 300px;"></div>
+    <div class="card mx-2 my-2" style="width: 28rem; height: 28rem;" *ngFor="let user of allUser | keyvalue">
+        <div id={{user.value.elementId}} style="height: 400px; "></div>
         <div class="card-body">
             <div class="d-flex justify-content-evenly">
                 <strong>{{user.value.name}}</strong>
