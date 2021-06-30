@@ -43,25 +43,24 @@ export class RemoteUserComponent implements OnInit {
   }
 
   addRemoteUser(data) {
+    console.log(this.allUser, 'ALLUSER')
     console.log(data, "Anshul Singh")
 
     let userData = {
       userId: data.user.uid,
       elementId: `remote-stream-${data.user.uid}`,
-      name: "User",
+      name: data.user.uid,
       isAudioEnabled: false,
       isVideoEnabled: false,
       videoStream: null,
       audioStream: null
     }
-    this.cnt++;
-    console.log(this.cnt, "Hello")
 
     this.allUser[data.user.uid] = userData;
     if (data.mediaType === 'audio') {
       this.allUser[data.user.uid].audioStream = data.user.audioTrack;
-      // this.allUser[data.user.uid].audioStream.play()
-      // this.allUser[data.user.uid].isAudioEnabled = true
+      this.allUser[data.user.uid].audioStream.play()
+      this.allUser[data.user.uid].isAudioEnabled = true
     }
     if (data.mediaType === 'video') {
       console.log(data.user.videoTrack, "LLLLLLL")
@@ -71,16 +70,17 @@ export class RemoteUserComponent implements OnInit {
           this.checkElementExistent(this.allUser[data.user.uid].elementId).then((ele) => {
             setTimeout(() => {
               this.allUser[data.user.uid].videoStream.play(this.allUser[data.user.uid].elementId)
-            }, 5000);
+            }, 1000);
 
 
           });
         }
         catch (err) {
           console.log(err, "DOM ERROR")
+          console.log("Hello from catch")
           setTimeout(
             () => {
-              // this.allUser[data.user.uid].videoStream.play(this.allUser[data.user.uid].elementId)
+              this.allUser[data.user.uid].videoStream.play(this.allUser[data.user.uid].elementId)
             }
             , 1000)
         }
