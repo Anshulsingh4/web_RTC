@@ -33,7 +33,7 @@ export class UserComponent implements OnInit, OnDestroy {
   loading = true;
 
   elementId: string;
-  screenId: string;
+  screenId: string = 'anshul';
 
   allUser = [
     { name: 'Anshul Singh', email: 'anshul@bigsteptech.com' },

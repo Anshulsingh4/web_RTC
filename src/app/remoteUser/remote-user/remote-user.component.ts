@@ -16,11 +16,8 @@ export class RemoteUserComponent implements OnInit {
   faMicrophoneOff;
   faVideoOn;
   faVideoOff;
-  cnt = 0;
 
-  allUser = {
-
-  }
+  allUser = {}
 
   ngOnInit(): void {
     this.faMicrophoneOn = faMicrophone;
@@ -28,8 +25,6 @@ export class RemoteUserComponent implements OnInit {
     this.faVideoOff = faVideoSlash;
     this.faVideoOn = faVideo;
     this.registerAgoraEvents()
-
-    // this.remoteStreams()
   }
 
   registerAgoraEvents() {
@@ -37,7 +32,8 @@ export class RemoteUserComponent implements OnInit {
       switch (data.type) {
         case 'user-published': this.addRemoteUser(data)
           break;
-        // case "user-unpublished": this.removeRemoteUser(data)
+        case "user-unpublished": this.removeRemoteUser(data)
+          break;
       }
     })
   }
@@ -45,72 +41,46 @@ export class RemoteUserComponent implements OnInit {
   addRemoteUser(data) {
     console.log(this.allUser, 'ALLUSER')
     console.log(data, "Anshul Singh")
-
-    let userData = {
-      userId: data.user.uid,
-      elementId: `remote-stream-${data.user.uid}`,
-      name: data.user.uid,
-      isAudioEnabled: false,
-      isVideoEnabled: false,
-      videoStream: null,
-      audioStream: null
+    if (!(this.allUser[data.user.uid])) {
+      let userData = {
+        userId: data.user.uid,
+        elementId: `remote-stream-${data.user.uid}`,
+        name: data.user.uid,
+        isAudioEnabled: false,
+        isVideoEnabled: false,
+        videoStream: null,
+        audioStream: null
+      }
+      this.allUser[data.user.uid] = userData;
     }
 
-    this.allUser[data.user.uid] = userData;
     if (data.mediaType === 'audio') {
       this.allUser[data.user.uid].audioStream = data.user.audioTrack;
-      this.allUser[data.user.uid].audioStream.play()
+      const remoteAudioTrack = data.user.audioTrack;
+      remoteAudioTrack.play();
       this.allUser[data.user.uid].isAudioEnabled = true
     }
+
     if (data.mediaType === 'video') {
-      console.log(data.user.videoTrack, "LLLLLLL")
       this.allUser[data.user.uid].videoStream = data.user.videoTrack;
-      if (this.allUser[data.user.uid].videoStream) {
-        try {
-          this.checkElementExistent(this.allUser[data.user.uid].elementId).then((ele) => {
-            setTimeout(() => {
-              this.allUser[data.user.uid].videoStream.play(this.allUser[data.user.uid].elementId)
-            }, 1000);
-
-
-          });
-        }
-        catch (err) {
-          console.log(err, "DOM ERROR")
-          console.log("Hello from catch")
-          setTimeout(
-            () => {
-              this.allUser[data.user.uid].videoStream.play(this.allUser[data.user.uid].elementId)
-            }
-            , 1000)
-        }
-
-        this.allUser[data.user.uid].isVideoEnabled = true
-      }
+      this.allUser[data.user.uid].isVideoEnabled = true
+      const remoteVideoTrack = data.user.videoTrack;
+      const remotePlayerContainer = document.createElement("div");
+      remotePlayerContainer.id = data.user.uid.toString();
+      remotePlayerContainer.textContent = "User Id:" + data.user.uid.toString();
+      remotePlayerContainer.style.width = "500px";
+      remotePlayerContainer.style.height = "350px";
+      remotePlayerContainer.style.margin = "15px";
+      document.getElementById('remote-video').append(remotePlayerContainer);
+      remoteVideoTrack.play(remotePlayerContainer);
     }
-    console.log(this.allUser, "Anshul Chouhan")
-
-
   }
 
-  checkElementExistent(id) {
-    return new Promise((res, rej) => {
-      let ele = document.getElementById(id);
-      if (ele) {
-        res(ele);
-      } else {
-        setInterval(() => {
-          let ele = document.getElementById(id);
-          if (ele) {
-            res(ele);
-          }
-        }, 100);
-      }
-    });
+  removeRemoteUser(data) {
+    if (data.mediaType == "video") {
+      let id = data.user.uid.toString();
+      document.getElementById(id).remove();
+      delete this.allUser[data.user.uid]
+    }
   }
-
-  // removeRemoteUser(data) {
-
-  // }
-
 }

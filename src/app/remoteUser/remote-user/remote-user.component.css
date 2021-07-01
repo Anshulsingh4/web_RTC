@@ -1,4 +1,4 @@
-.center {
+/* .center {
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -12,4 +12,15 @@
   height: 850px;
   width: 1400px;
   overflow-y: scroll;
+} */
+
+.item{
+  margin:1%;
+   display: flex; 
+  flex-wrap: wrap;
+}
+
+.cont{
+   
+  width:100%;
 }
