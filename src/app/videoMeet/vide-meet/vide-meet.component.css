@@ -2,3 +2,7 @@
     border: 1px solid black;
     height: 850px;
 }
+
+.new{
+    overflow-y: scroll;
+  }

@@ -1,0 +1,6 @@
+<button type="button" class=" btn btn-{{usersBtn ? 'primary' : 'secondary'}} px-5" (click)=onUsers()>Users</button>
+<div *ngIf="usersDetail">
+    <p *ngFor="let user of allUser">
+        {{user.name}}
+    </p>
+</div>

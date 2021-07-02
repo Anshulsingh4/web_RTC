@@ -7,13 +7,17 @@ import { UserComponent } from './User/user/user.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RemoteUserComponent } from './remoteUser/remote-user/remote-user.component';
 import { VideMeetComponent } from './videoMeet/vide-meet/vide-meet.component';
+import { ChatComponent } from './User/chat/chat.component';
+import { AllUserComponent } from './User/all-user/all-user.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UserComponent,
     RemoteUserComponent,
-    VideMeetComponent
+    VideMeetComponent,
+    ChatComponent,
+    AllUserComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,7 @@
+<div class="my-2">
+    <button type="button" class="btn btn-{{chatBtn ? 'primary' : 'secondary'}} px-5" (click)=onChat()>Chat</button>
+    <div class="msg my-1" *ngIf="usersDetail">
+        <input type="text" placeholder="Type your message" name='message' id='message'>
+        <button>Send</button>
+    </div>
+</div>

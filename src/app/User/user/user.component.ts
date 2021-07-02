@@ -22,9 +22,9 @@ export class UserComponent implements OnInit, OnDestroy {
   mic: boolean = false;
   video: boolean = false;
   screenShare: boolean = false;
-  chatBtn: string = "btn-primary";
-  usersBtn: string;
-  usersDetail: boolean = false;
+  // chatBtn: string = "btn-primary";
+  // usersBtn: string;
+  // usersDetail: boolean = false;
   faMicrophoneOn;
   faMicrophoneOff;
   faVideoOn;
@@ -35,13 +35,6 @@ export class UserComponent implements OnInit, OnDestroy {
   elementId: string;
   screenId: string = 'anshul';
 
-  allUser = [
-    { name: 'Anshul Singh', email: 'anshul@bigsteptech.com' },
-    { name: 'Madhur Jain', email: 'madhur@bigsteptech.com' },
-    { name: 'Mansi Gupta', email: 'mansi@bigsteptech.com' },
-    { name: 'Rohan Kumawat', email: 'rohan@bigsteptech.com' },
-    { name: 'Kailash Malveeya', email: 'kailash@bigsteptech.com' },
-  ]
 
   ngOnInit(): void {
     this.faMicrophoneOn = faMicrophone;
@@ -75,7 +68,6 @@ export class UserComponent implements OnInit, OnDestroy {
       // this.agoraRTC.publisher.tracks.audio.close();
     }
     this.video = !this.video;
-
   }
 
   async onScreenShare() {
@@ -87,22 +79,19 @@ export class UserComponent implements OnInit, OnDestroy {
     else {
       this.agoraRTC.screenPublish.tracks.screen.close();
     }
-
-
   }
 
+  // onChat() {
+  //   this.chatBtn = "btn-primary"
+  //   this.usersBtn = ""
+  //   this.usersDetail = !this.usersDetail
+  // }
 
-  onChat() {
-    this.chatBtn = "btn-primary"
-    this.usersBtn = ""
-    this.usersDetail = !this.usersDetail
-  }
-
-  onUsers() {
-    this.usersBtn = "btn-primary"
-    this.chatBtn = ""
-    this.usersDetail = !this.usersDetail
-  }
+  // onUsers() {
+  //   this.usersBtn = "btn-primary"
+  //   this.chatBtn = ""
+  //   this.usersDetail = !this.usersDetail
+  // }
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }

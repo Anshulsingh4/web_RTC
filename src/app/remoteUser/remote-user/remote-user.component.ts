@@ -61,7 +61,8 @@ export class RemoteUserComponent implements OnInit {
       this.allUser[data.user.uid].isAudioEnabled = true
     }
 
-    if (data.mediaType === 'video') {
+    if (data.mediaType === 'video' && data.user.uid !== 'anshulScreen') {
+
       this.allUser[data.user.uid].videoStream = data.user.videoTrack;
       this.allUser[data.user.uid].isVideoEnabled = true
       const remoteVideoTrack = data.user.videoTrack;
@@ -71,9 +72,11 @@ export class RemoteUserComponent implements OnInit {
       remotePlayerContainer.style.width = "500px";
       remotePlayerContainer.style.height = "350px";
       remotePlayerContainer.style.margin = "15px";
+      remotePlayerContainer.style.border = "2px solid black"
       document.getElementById('remote-video').append(remotePlayerContainer);
       remoteVideoTrack.play(remotePlayerContainer);
     }
+
   }
 
   removeRemoteUser(data) {
