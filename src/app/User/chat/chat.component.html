@@ -1,7 +1,18 @@
 <div class="my-2">
-    <button type="button" class="btn btn-{{chatBtn ? 'primary' : 'secondary'}} px-5" (click)=onChat()>Chat</button>
-    <div class="msg my-1" *ngIf="usersDetail">
-        <input type="text" placeholder="Type your message" name='message' id='message'>
-        <button>Send</button>
-    </div>
+    <!-- <button type="button" class="btn btn-{{chatBtn ? 'primary' : 'secondary'}} px-5" (click)=onChat()>Chat</button> -->
+    <form (ngSubmit)='onSubmit(f)' #f='ngForm'>
+        <div *ngFor='let message of messages'>
+            <div class="container">
+                <div class="message-blue">
+                    <strong>{{message.memberId}}</strong> <br>
+                    {{message.message}}
+                </div>
+            </div>
+
+        </div>
+        <div class="msg my-1">
+            <input type="text" placeholder="Type your message" name='message' id='message' ngModel>
+            <button>Send</button>
+        </div>
+    </form>
 </div>

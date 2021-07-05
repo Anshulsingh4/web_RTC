@@ -57,7 +57,7 @@ export class RemoteUserComponent implements OnInit {
     if (data.mediaType === 'audio') {
       this.allUser[data.user.uid].audioStream = data.user.audioTrack;
       const remoteAudioTrack = data.user.audioTrack;
-      remoteAudioTrack.play();
+      // remoteAudioTrack.play();
       this.allUser[data.user.uid].isAudioEnabled = true
     }
 

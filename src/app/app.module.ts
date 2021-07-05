@@ -9,6 +9,7 @@ import { RemoteUserComponent } from './remoteUser/remote-user/remote-user.compon
 import { VideMeetComponent } from './videoMeet/vide-meet/vide-meet.component';
 import { ChatComponent } from './User/chat/chat.component';
 import { AllUserComponent } from './User/all-user/all-user.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { AllUserComponent } from './User/all-user/all-user.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
