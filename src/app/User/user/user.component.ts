@@ -3,6 +3,7 @@ import { faMicrophone, faMicrophoneSlash, faVideo, faVideoSlash, faPhoneSlash } 
 import { AgoraRTCService } from '../../services/agora-rtc.service';
 import { tap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -13,7 +14,8 @@ export class UserComponent implements OnInit, OnDestroy {
 
   private sub: Subscription;
 
-  constructor(private agoraRTC: AgoraRTCService) {
+  constructor(private agoraRTC: AgoraRTCService,
+    private router: Router) {
     this.sub = this.agoraRTC.streaming.pipe(
       tap(() => this.showPublisher())
     ).subscribe();
@@ -52,7 +54,14 @@ export class UserComponent implements OnInit, OnDestroy {
     }
   }
 
-  onMic() {
+  async onMic() {
+    if (this.mic) {
+
+      this.agoraRTC.publisher.tracks.audio.setEnabled(true);
+    }
+    else {
+      this.agoraRTC.publisher.tracks.audio.setEnabled(false);
+    }
     this.mic = !this.mic
   }
 
@@ -60,38 +69,31 @@ export class UserComponent implements OnInit, OnDestroy {
 
     if (this.video) {
       await this.agoraRTC.createBothTracks();
-      this.agoraRTC.publisher.tracks.video.play(this.elementId);
-      // this.agoraRTC.publisher.tracks.audio.play();
+      this.agoraRTC.publisher.tracks.video.setEnabled(true);
     }
     else {
-      this.agoraRTC.publisher.tracks.video.close();
-      // this.agoraRTC.publisher.tracks.audio.close();
+      this.agoraRTC.publisher.tracks.video.setEnabled(false);
     }
     this.video = !this.video;
+    this.mic = !this.mic
   }
 
   async onScreenShare() {
-    this.screenShare = !this.screenShare
-    if (this.screenShare) {
+
+    if (!this.screenShare) {
       await this.agoraRTC.createScreenTrack();
       this.agoraRTC.screenPublish.tracks.screen.play(this.screenId);
     }
     else {
       this.agoraRTC.screenPublish.tracks.screen.close();
     }
+    this.screenShare = !this.screenShare
   }
 
-  // onChat() {
-  //   this.chatBtn = "btn-primary"
-  //   this.usersBtn = ""
-  //   this.usersDetail = !this.usersDetail
-  // }
+  onEndCall() {
+    this.router.navigate([''])
+  }
 
-  // onUsers() {
-  //   this.usersBtn = "btn-primary"
-  //   this.chatBtn = ""
-  //   this.usersDetail = !this.usersDetail
-  // }
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }

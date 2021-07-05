@@ -13,39 +13,27 @@
                 </p>
                 <div class="d-flex justify-content-evenly">
                     <button class="btn rounded-circle" (click)=onVideo()>
-                        <fa-icon [icon]="faVideoOn" *ngIf="video"></fa-icon>
-                        <fa-icon [icon]="faVideoOff" *ngIf="!video"></fa-icon>
+                        <fa-icon [icon]="faVideoOn" *ngIf="!video"></fa-icon>
+                        <fa-icon [icon]="faVideoOff" *ngIf="video"></fa-icon>
                     </button>
                     <button class="btn rounded-circle" (click)=onMic()>
-                        <fa-icon [icon]="faMicrophoneOn" *ngIf="mic"></fa-icon>
-                        <fa-icon [icon]="faMicrophoneOff" *ngIf="!mic"></fa-icon>
+                        <fa-icon [icon]="faMicrophoneOn" *ngIf="!mic"></fa-icon>
+                        <fa-icon [icon]="faMicrophoneOff" *ngIf="mic"></fa-icon>
                     </button>
                     <button class="btn rounded-circle" (click)=onScreenShare()>
                         {{screenShare ? "SS" : "NSS"}}
                     </button>
-                    <button class="btn rounded-circle">
+                    <button class="btn rounded-circle" (click)=onEndCall()>
                         <fa-icon [icon]="faPhoneSlash"></fa-icon>
                     </button>
                 </div>
             </div>
         </div>
     </div>
-    <!-- <div>
-        <div class="card" style="width: 20rem;">
-            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                <button type="button" class="btn {{chatBtn}}" (click)=onChat() [disabled]="!usersDetail">Chat</button>
-                <button type="button" class="btn {{usersBtn}}" (click)=onUsers() [disabled]="usersDetail">Users</button>
-            </div>
-            <div class="card-body">
-                <div *ngIf="!usersDetail">
-                    <textarea class="form-control" id="textAreaExample" placeholder="Type your message"></textarea>
-                </div>
-                <div *ngIf="usersDetail">
-                    <p *ngFor="let user of allUser">
-                        {{user.name}}
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div> -->
+
+    <div class="presenting d-flex justify-content-center" *ngIf=screenShare>
+        <h1>You are presenting</h1>
+    </div>
+
+
 </div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RemoteUserComponent } from 'src/app/remoteUser/remote-user/remote-user.component';
 
 @Component({
   selector: 'app-all-user',
@@ -7,20 +8,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AllUserComponent implements OnInit {
 
-  constructor() { }
+  constructor(private remoteUser: RemoteUserComponent) { }
   chatBtn: string = "btn-primary";
   usersBtn: boolean = false;
   usersDetail: boolean = false;
 
-  allUser = [
-    { name: 'Anshul Singh', email: 'anshul@bigsteptech.com' },
-    { name: 'Madhur Jain', email: 'madhur@bigsteptech.com' },
-    { name: 'Mansi Gupta', email: 'mansi@bigsteptech.com' },
-    { name: 'Rohan Kumawat', email: 'rohan@bigsteptech.com' },
-    { name: 'Kailash Malveeya', email: 'kailash@bigsteptech.com' }
-  ]
+  allUser = []
 
   ngOnInit(): void {
+    this.getAllUser()
+
+  }
+
+  getAllUser() {
+    console.log("In all user")
+    this.remoteUser.dataEmitter.subscribe((data) => {
+      console.log(data, "BBB")
+      this.allUser = data;
+    })
+
   }
 
   onUsers() {

@@ -15,6 +15,7 @@ export class VideMeetComponent implements OnInit {
   btnColor = 'btn-primary'
   btnUsersColor: string;
   btnChatColor: string = 'btn-primary';
+  cnt = 0;
   constructor(private agoraRTC: AgoraRTCService,
     private agoraRTM: AgoraRtmService,
     private route: ActivatedRoute) { }

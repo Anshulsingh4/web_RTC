@@ -13,7 +13,10 @@ export class ChatComponent implements OnInit {
   messages = [];
   chatBtn: boolean = false;
   usersDetail: boolean = false;
-  constructor(private agoraRTM: AgoraRtmService, private route: ActivatedRoute) { }
+  cnt = 0;
+
+  constructor(private agoraRTM: AgoraRtmService, private route: ActivatedRoute) {
+  }
 
 
   ngOnInit(): void {
@@ -52,5 +55,6 @@ export class ChatComponent implements OnInit {
     data.reset()
 
   }
+
 
 }

@@ -1,5 +1,4 @@
 <div class="my-2">
-    <!-- <button type="button" class="btn btn-{{chatBtn ? 'primary' : 'secondary'}} px-5" (click)=onChat()>Chat</button> -->
     <form (ngSubmit)='onSubmit(f)' #f='ngForm'>
         <div *ngFor='let message of messages'>
             <div class="container">
