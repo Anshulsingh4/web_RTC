@@ -55,6 +55,7 @@ export class AgoraRTCService {
   async createAudioTrack() {
     // Create an audio track from the audio sampled by a microphone.
     this.publisher.tracks.audio = await AgoraRTC.createMicrophoneAudioTrack();
+    this.publisher.tracks
   }
 
   async createBothTracks() {

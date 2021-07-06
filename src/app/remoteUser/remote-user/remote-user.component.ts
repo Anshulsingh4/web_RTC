@@ -73,7 +73,6 @@ export class RemoteUserComponent implements OnInit {
       remotePlayerContainer.className = "remote-video-box";
       remotePlayerContainer.style.width = "500px";
       remotePlayerContainer.style.height = "350px";
-      // remotePlayerContainer.style.margin = "15px";
       document.getElementById('remote-video').append(remotePlayerContainer);
       remoteVideoTrack.play(remotePlayerContainer);
       let emitData = []
@@ -87,6 +86,7 @@ export class RemoteUserComponent implements OnInit {
   }
 
   removeRemoteUser(data) {
+    // console.log(data, "Final")
     if (data.mediaType == "video") {
       let id = data.user.uid.toString();
       document.getElementById(id).remove();

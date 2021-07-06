@@ -68,7 +68,7 @@ export class UserComponent implements OnInit, OnDestroy {
   async onVideo() {
 
     if (this.video) {
-      await this.agoraRTC.createBothTracks();
+      // await this.agoraRTC.createBothTracks();
       this.agoraRTC.publisher.tracks.video.setEnabled(true);
     }
     else {

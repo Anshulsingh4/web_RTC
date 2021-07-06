@@ -10,8 +10,8 @@
 
         </div>
         <div class="msg my-1">
-            <input type="text" placeholder="Type your message" name='message' id='message' ngModel>
-            <button>Send</button>
+            <input type="text" placeholder="Type your message" name='message' id='message' ngModel required>
+            <button type="submit" [disabled]="!f.valid">Send</button>
         </div>
     </form>
 </div>

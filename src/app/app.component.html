@@ -1,14 +1,11 @@
-<div class="container" *ngIf="renderStartPage">
+<!-- <div class="container" *ngIf="renderStartPage">
   <div class="login">
     <form #f="ngForm" (ngSubmit)="onSubmit(f)">
       <div class="row">
         <h2>Virtual Meet</h2>
         <div class="my-3 col-md-12">
-          <label for="email">Enter Channel Name</label>
-          <input type="text" class="form-control" placeholder="Ex. 1234" name='channelName' ngModel required>
-          <br>
-          <label for="name">Enter your name</label>
-          <input type="text" class="form-control" placeholder="Ex. anshul" name="name" ngModel required>
+          <label for="name" class="mb-3">Enter your name</label>
+          <input type="text" class="form-control" placeholder="Ex. anshul" name="name" autofocus ngModel required>
         </div>
       </div>
       <div class="row d-flex justify-content-center">
@@ -23,5 +20,5 @@
 
 <div *ngIf="!renderStartPage">
   <router-outlet></router-outlet>
-</div>
-<!-- <router-outlet></router-outlet> -->
+</div> -->
+<router-outlet></router-outlet>
