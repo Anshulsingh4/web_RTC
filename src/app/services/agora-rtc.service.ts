@@ -46,6 +46,11 @@ export class AgoraRTCService {
       userId: null,
       appId: environment.appId
     }
+    this.publisher.client.enableDualStream().then(() => {
+      console.log("Enable Dual stream success!");
+    }).catch(err => {
+      console.log(err);
+    })
   }
 
   async createVideoTrack() {
@@ -69,13 +74,6 @@ export class AgoraRTCService {
     }
     catch (err) {
       throw err;
-    }
-  }
-
-  async publishScreenTrack() {
-    if (this.screenPublish.tracks.screen) {
-      this.screenPublish.client.publish([this.screenPublish.tracks.screen]);
-
     }
   }
 
@@ -113,7 +111,6 @@ export class AgoraRTCService {
   }
 
   async createScreenTrack() {
-    // this.screenPublish.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
 
     await AgoraRTC.createScreenVideoTrack({
       encoderConfig: "720p_1",
@@ -121,12 +118,16 @@ export class AgoraRTCService {
       this.screenPublish.tracks.screen = localScreenTrack;
       console.log(localScreenTrack)
     });
+    this.publishScreenTrack();
 
-    this.screenjoin().then(
-      () => {
-        this.publishScreenTrack()
-      }
-    )
+  }
+
+  async publishScreenTrack() {
+    return await this.screenPublish.client.publish([this.screenPublish.tracks.screen]);
+  }
+  async UnpublishScreenTrack() {
+    return await this.screenPublish.client.unpublish([this.screenPublish.tracks.screen]);
+
   }
 
 

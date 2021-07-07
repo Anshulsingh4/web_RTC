@@ -5,6 +5,7 @@ import { tap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StringMapWithRename } from '@angular/compiler/src/compiler_facade_interface';
+import { AgoraRtmService } from 'src/app/services/agora-rtm.service';
 
 @Component({
   selector: 'app-user',
@@ -17,7 +18,8 @@ export class UserComponent implements OnInit, OnDestroy {
 
   constructor(private agoraRTC: AgoraRTCService,
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router,
+    private agoraRTM: AgoraRtmService) {
     this.sub = this.agoraRTC.streaming.pipe(
       tap(() => this.showPublisher())
     ).subscribe();
@@ -26,7 +28,7 @@ export class UserComponent implements OnInit, OnDestroy {
   userName: String;
   mic: boolean = false;
   video: boolean = false;
-  screenShare: boolean = false;
+  screen: boolean = false;
   // chatBtn: string = "btn-primary";
   // usersBtn: string;
   // usersDetail: boolean = false;
@@ -84,17 +86,34 @@ export class UserComponent implements OnInit, OnDestroy {
     // this.mic = !this.mic
   }
 
+
   async onScreenShare() {
 
-    if (!this.screenShare) {
-      await this.agoraRTC.createScreenTrack();
-      this.agoraRTC.screenPublish.tracks.screen.play(this.screenId);
+    if (!this.screen) {
+      const attributes = await this.agoraRTM.rtm.client.getChannelAttributes('1234')
+      if (attributes.screenShare && attributes.screenShare.value === "true") {
+        console.log(attributes.screenShare, "att")
+
+        alert("You can't share your screen . Screen sharing is limited to One")
+      }
+      else {
+        await this.agoraRTC.createScreenTrack();
+        await this.agoraRTM.rtm.client.setChannelAttributes('1234', { screenShare: "true" })
+        this.agoraRTC.screenPublish.tracks.screen.setEnabled(true);
+
+        console.log(this.agoraRTM.rtm.client.getChannelAttributes('1234'), "att")
+
+        this.screen = !this.screen;
+      }
     }
     else {
-      this.agoraRTC.screenPublish.tracks.screen.close();
+      this.screen = !this.screen;
+      await this.agoraRTM.rtm.client.setChannelAttributes('1234', { screenShare: "false" })
+      this.agoraRTC.screenPublish.tracks.screen.setEnabled(false);
     }
-    this.screenShare = !this.screenShare
   }
+
+
 
   onEndCall() {
     this.router.navigate([''])

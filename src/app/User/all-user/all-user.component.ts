@@ -16,9 +16,7 @@ export class AllUserComponent implements OnInit {
   allUser = []
 
   ngOnInit(): void {
-    this.route.params.subscribe((param) => {
-      this.userName = param.userId
-    })
+
   }
 
 }

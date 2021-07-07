@@ -1,3 +1,7 @@
+.remoteuserdiv{
+  width: 1400px;
+}
+
 .cont{
   width:100%;
 }
@@ -6,7 +10,7 @@
    display: flex; 
   flex-wrap: wrap;
 }
-.size{
+/* .size{
   width:370px;
   height:200px;
   margin:5%;
@@ -45,4 +49,4 @@ img{
   padding-right: 2%;
   padding-top: 4px;
   border-top-right-radius: 25px;
-}
+} */

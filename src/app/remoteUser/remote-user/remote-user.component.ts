@@ -74,7 +74,7 @@ export class RemoteUserComponent implements OnInit {
         audioStream: null,
 
       }
-      console.log("ram", this.allUser);
+      console.log("all user", this.allUser);
       this.allUser[data.user.uid] = userData;
 
     }
@@ -84,33 +84,33 @@ export class RemoteUserComponent implements OnInit {
       remoteAudioTrack.play();
       this.allUser[data.user.uid].isAudioEnabled = true
     }
-    if (data.mediaType === 'video' && data.user.uid !== "ScreenShare") {
+    if (data.mediaType === 'video') {  //&& data.user.uid !== "ScreenShare"
       this.allUser[data.user.uid].videoStream = data.user.videoTrack;
       this.allUser[data.user.uid].isVideoEnabled = true
       const remoteVideoTrack = data.user.videoTrack;
 
       const remotePlayerContainer = document.createElement("div");
       remotePlayerContainer.id = data.user.uid.toString();
-      remotePlayerContainer.style.width = "450px";
+      remotePlayerContainer.style.width = "380px";
       remotePlayerContainer.style.height = "350px";
       remotePlayerContainer.style.margin = "15px";
       document.getElementById('remote-video').append(remotePlayerContainer);
       remoteVideoTrack.play(remotePlayerContainer);
     }
-    if (data.mediaType === 'video' && data.user.uid === "ScreenShare") {
-      this.allUser[data.user.uid].videoStream = data.user.videoTrack;
-      this.allUser[data.user.uid].isVideoEnabled = true
-      const remoteVideoTrack = data.user.videoTrack;
+    // if (data.mediaType === 'video' && data.user.uid === "ScreenShare") {
+    //   this.allUser[data.user.uid].videoStream = data.user.videoTrack;
+    //   this.allUser[data.user.uid].isVideoEnabled = true
+    //   const remoteVideoTrack = data.user.videoTrack;
 
-      const remotePlayerContainer = document.createElement("div");
-      remotePlayerContainer.id = data.user.uid.toString();
-      remotePlayerContainer.style.width = "1100px";
-      remotePlayerContainer.style.height = "650px";
-      remotePlayerContainer.style.margin = "15px";
-      document.getElementById('remote-screen').append(remotePlayerContainer);
-      remoteVideoTrack.play(remotePlayerContainer);
+    //   const remotePlayerContainer = document.createElement("div");
+    //   remotePlayerContainer.id = data.user.uid.toString();
+    //   remotePlayerContainer.style.width = "1100px";
+    //   remotePlayerContainer.style.height = "650px";
+    //   remotePlayerContainer.style.margin = "15px";
+    //   document.getElementById('remote-screen').append(remotePlayerContainer);
+    //   remoteVideoTrack.play(remotePlayerContainer);
 
-    }
+    // }
   }
 
 

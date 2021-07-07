@@ -21,7 +21,7 @@
                         <fa-icon [icon]="faMicrophoneOff" *ngIf="mic"></fa-icon>
                     </button>
                     <button class="btn rounded-circle" (click)=onScreenShare()>
-                        {{screenShare ? "SS" : "NSS"}}
+                        {{screen ? "SS" : "NSS"}}
                     </button>
                     <button class="btn rounded-circle" (click)=onEndCall()>
                         <fa-icon [icon]="faPhoneSlash"></fa-icon>
@@ -31,8 +31,8 @@
         </div>
     </div>
 
-    <div class="presenting d-flex justify-content-center" *ngIf=screenShare>
-        <h3>You are presenting</h3>
+    <div class="presenting d-flex justify-content-center" *ngIf=screen>
+        <h3>YOU ARE PRESENTING</h3>
     </div>
 
 

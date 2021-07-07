@@ -22,6 +22,7 @@ export class VideMeetComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.agoraRTM.initRtmSession(params.get('userId'))
+      this.agoraRTC.screenjoin();
       this.agoraRTC.createBothTracks().then(() => {
         this.agoraRTC.streaming.next(true)
         console.log(params, "FFFFFFF")
