@@ -67,7 +67,7 @@ export class AgoraRtmService {
 
   }
   onChannelMessage = (message, memberId) => {
-    let emitData = { type: 'ChannelMessage', message: message.text, memberId };
+    let emitData = { type: 'ChannelMessage', message: message.text, memberId, self: false };
     console.log(emitData, "Data emitted")
     this.agora2.emit(emitData);
   }

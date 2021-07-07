@@ -47,7 +47,7 @@ export class ChatComponent implements OnInit {
     this.route.params.subscribe(param => {
       userId = param.userId
     })
-    this.messages.push({ message: data.value.message, memberId: userId })
+    this.messages.push({ message: data.value.message, memberId: userId, self: true })
 
 
     console.log(data.value, "I am data")

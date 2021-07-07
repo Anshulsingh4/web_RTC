@@ -5,6 +5,7 @@ import AgoraRTC, {
   UID,
 } from "agora-rtc-sdk-ng";
 import { environment } from "../../environments/environment"
+import { AgoraRtmService } from './agora-rtm.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,7 @@ export class AgoraRTCService {
 
   public streaming = new EventEmitter<boolean>();
   public _agora = new EventEmitter<any>();
+  public agora1 = new EventEmitter<any>();
 
   remoteStreams: any[] = [];
   credentials = {
@@ -34,7 +36,7 @@ export class AgoraRTCService {
   };
 
 
-  constructor() {
+  constructor(private agoraRTM: AgoraRtmService) {
 
     this.publisher.client = AgoraRTC.createClient({ mode: "live", codec: "vp8" });
     this.screenPublish.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
@@ -55,7 +57,8 @@ export class AgoraRTCService {
   async createAudioTrack() {
     // Create an audio track from the audio sampled by a microphone.
     this.publisher.tracks.audio = await AgoraRTC.createMicrophoneAudioTrack();
-    this.publisher.tracks
+    this.publisher.tracks;
+    this.publisher.client.enableAudioVolumeIndicator();
   }
 
   async createBothTracks() {
@@ -66,6 +69,13 @@ export class AgoraRTCService {
     }
     catch (err) {
       throw err;
+    }
+  }
+
+  async publishScreenTrack() {
+    if (this.screenPublish.tracks.screen) {
+      this.screenPublish.client.publish([this.screenPublish.tracks.screen]);
+
     }
   }
 
@@ -106,7 +116,7 @@ export class AgoraRTCService {
     // this.screenPublish.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
 
     await AgoraRTC.createScreenVideoTrack({
-      encoderConfig: "1080p_1",
+      encoderConfig: "720p_1",
     }).then(localScreenTrack => {
       this.screenPublish.tracks.screen = localScreenTrack;
       console.log(localScreenTrack)
@@ -114,7 +124,7 @@ export class AgoraRTCService {
 
     this.screenjoin().then(
       () => {
-        return this.screenPublish.client.publish([this.screenPublish.tracks.screen]);
+        this.publishScreenTrack()
       }
     )
   }
@@ -125,7 +135,17 @@ export class AgoraRTCService {
     this.publisher.client.on('user-unpublished', this.onUserUnpublished);
     this.publisher.client.on('user-joined', this.onUserJoined);
     this.publisher.client.on('user-left', this.onUserLeft);
+    this.publisher.client.on('volume-indicator', this.volumeIndicatorHandler);
   }
+
+  unregisterCallbacks() {
+    this.publisher.client.off('user-published', this.onUserPublished);
+    this.publisher.client.off('user-unpublished', this.onUserUnpublished);
+    this.publisher.client.off('user-joined', this.onUserJoined);
+    this.publisher.client.off('user-left', this.onUserLeft);
+    this.publisher.client.off('volume-indicator', this.volumeIndicatorHandler);
+  }
+
 
   onScreenPublished = async (user, mediaType) => {
     const uid = user.uid;
@@ -140,16 +160,44 @@ export class AgoraRTCService {
     this._agora.emit(emitData);
   }
 
+  setRemoteStreamType(userId, type) {
+    let flag = 0;
+    if (this.publisher.client) {
+      if (type == 'low') {
+        flag = 1;
+      }
+      if (type == 'high') {
+        flag = 0;
+      }
+      this.publisher.client.setRemoteVideoStreamType(userId, flag);
+    }
+  }
+
+  volumeIndicatorHandler = async (result) => {
+    console.log("volume")
+    let emitData = { type: 'volume-indicator', result };
+    this._agora.emit(emitData);
+  };
+
+  getMember() {
+    this.agoraRTM.rtm.channel.getMembers()
+      .then((data) => {
+        console.log(data, "emit")
+        this.agora1.emit(data);
+      })
+  }
+
 
   onUserPublished = async (user, mediaType) => {
     console.log(user, "IN user published")
     const uid = user.uid;
+    this.getMember()
     if (user.uid !== "anshulScreen") {
       await this.publisher.client.subscribe(user, mediaType);
     }
-    // await this.publisher.client.setStreamFallbackOption(uid, 1);
+    await this.publisher.client.setStreamFallbackOption(uid, 1);
     if (mediaType === 'video') {
-      // this.setRemoteStreamType(uid, 'low');
+      this.setRemoteStreamType(uid, 'low');
     }
     if (mediaType === 'audio') {
     }
@@ -161,6 +209,7 @@ export class AgoraRTCService {
   onUserUnpublished = async (user, mediaType) => {
 
     await this.publisher.client.unsubscribe(user, mediaType);
+
     if (mediaType === 'video') {
       console.log('unsubscribe video success');
     }

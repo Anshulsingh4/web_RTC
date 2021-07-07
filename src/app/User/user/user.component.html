@@ -8,8 +8,8 @@
             </div>
             <div class="card-body">
                 <p>
-                    <strong>Anshul Singh</strong> <br>
-                    anshul@bigsteptech.com
+                    <strong>{{userName.toUpperCase()}}</strong> <br>
+                    {{userName}}@bigsteptech.com
                 </p>
                 <div class="d-flex justify-content-evenly">
                     <button class="btn rounded-circle" (click)=onVideo()>
@@ -32,7 +32,7 @@
     </div>
 
     <div class="presenting d-flex justify-content-center" *ngIf=screenShare>
-        <h1>You are presenting</h1>
+        <h3>You are presenting</h3>
     </div>
 
 

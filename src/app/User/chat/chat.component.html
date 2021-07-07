@@ -2,13 +2,30 @@
     <form (ngSubmit)='onSubmit(f)' #f='ngForm'>
         <div *ngFor='let message of messages'>
             <div class="container">
-                <div class="message-blue">
-                    <strong>{{message.memberId}}</strong> <br>
-                    {{message.message}}
+                <div *ngIf="message.self" class="chat">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/768px-User_icon_2.svg.png"
+                        class="right">
+                    <p>
+                        {{message.memberId}} <br>
+                        {{message.message}}
+
+                    </p>
+                </div>
+                <div *ngIf="!message.self">
+                    <img
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/768px-User_icon_2.svg.png">
+                    <p>
+                        {{message.memberId}} <br>
+                        {{message.message}}
+
+                    </p>
                 </div>
             </div>
-
         </div>
+        <!-- <div class="container darker">
+                <img src="/w3images/avatar_g2.jpg" alt="Avatar"  class="right">
+                <p>Hey! I'm fine. Thanks for asking!</p>
+              </div> -->
         <div class="msg my-1">
             <input type="text" placeholder="Type your message" name='message' id='message' ngModel required>
             <button type="submit" [disabled]="!f.valid">Send</button>

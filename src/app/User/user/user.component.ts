@@ -3,7 +3,8 @@ import { faMicrophone, faMicrophoneSlash, faVideo, faVideoSlash, faPhoneSlash } 
 import { AgoraRTCService } from '../../services/agora-rtc.service';
 import { tap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { StringMapWithRename } from '@angular/compiler/src/compiler_facade_interface';
 
 @Component({
   selector: 'app-user',
@@ -15,12 +16,14 @@ export class UserComponent implements OnInit, OnDestroy {
   private sub: Subscription;
 
   constructor(private agoraRTC: AgoraRTCService,
+    private route: ActivatedRoute,
     private router: Router) {
     this.sub = this.agoraRTC.streaming.pipe(
       tap(() => this.showPublisher())
     ).subscribe();
-  }
 
+  }
+  userName: String;
   mic: boolean = false;
   video: boolean = false;
   screenShare: boolean = false;
@@ -39,6 +42,9 @@ export class UserComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
+    this.route.params.subscribe((param) => {
+      this.userName = param.userId
+    })
     this.faMicrophoneOn = faMicrophone;
     this.faMicrophoneOff = faMicrophoneSlash;
     this.faVideoOff = faVideoSlash;
@@ -75,7 +81,7 @@ export class UserComponent implements OnInit, OnDestroy {
       this.agoraRTC.publisher.tracks.video.setEnabled(false);
     }
     this.video = !this.video;
-    this.mic = !this.mic
+    // this.mic = !this.mic
   }
 
   async onScreenShare() {
