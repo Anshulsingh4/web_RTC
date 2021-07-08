@@ -1,6 +1,6 @@
 
-body {
-    background-color: #aaa!important;
+main {
+    background-color: rgba(0, 0, 0, 0.6);
 }
 
 .login {

@@ -54,7 +54,7 @@ export class RemoteUserComponent implements OnInit {
       if (array[0].level > 1)
         document.getElementById(`${array[0].uid}`).style.border = "4px solid red";
       for (let i = 1; i < array.length; i++) {
-        document.getElementById(`${array[i].uid}`).style.border = "4px solid black";
+        document.getElementById(`${array[i].uid}`).style.border = "none";
       }
     }
     catch (err) {
@@ -121,7 +121,7 @@ export class RemoteUserComponent implements OnInit {
       userElement.videoStream = null;
       userElement.isVideoEnabled = false;
     }
-    if (data.mediaType == "video" && data.user.uid === "ScreenShare") {
+    else if (data.mediaType == "video" && data.user.uid === "ScreenShare") {
       userElement.videoStream = null;
       userElement.isVideoEnabled = false;
       document.getElementById('remote-screen').remove()

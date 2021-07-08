@@ -1,7 +1,6 @@
-/* .main{
-  height: 850px;
-  overflow-y: scroll;
-} */
+.main{
+  /* border: 4px solid black; */
+}
 .btn{
     border: 1px solid black;
 }

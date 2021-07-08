@@ -1,4 +1,4 @@
-<div class="my-2">
+<div class="main my-2">
     <form (ngSubmit)='onSubmit(f)' #f='ngForm'>
         <div *ngFor='let message of messages'>
             <div class="container">
@@ -6,7 +6,8 @@
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/768px-User_icon_2.svg.png"
                         class="right">
                     <p>
-                        {{message.memberId}} <br>
+                        <strong>{{message.memberId}}</strong>
+                        <br>
                         {{message.message}}
 
                     </p>
@@ -15,7 +16,8 @@
                     <img
                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/768px-User_icon_2.svg.png">
                     <p>
-                        {{message.memberId}} <br>
+                        <strong>{{message.memberId}}</strong>
+                        <br>
                         {{message.message}}
 
                     </p>
@@ -26,7 +28,7 @@
                 <img src="/w3images/avatar_g2.jpg" alt="Avatar"  class="right">
                 <p>Hey! I'm fine. Thanks for asking!</p>
               </div> -->
-        <div class="msg my-1">
+        <div class="msg my-2 mx-1">
             <input type="text" placeholder="Type your message" name='message' id='message' ngModel required>
             <button type="submit" [disabled]="!f.valid">Send</button>
         </div>
