@@ -91,7 +91,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
     if (!this.screen) {
       const attributes = await this.agoraRTM.rtm.client.getChannelAttributes('1234')
-      if (attributes.screenShare && attributes.screenShare.value === "true") {
+      if (false) { //attributes.screenShare && attributes.screenShare.value === "true"
         console.log(attributes.screenShare, "att")
 
         alert("You can't share your screen . Screen sharing is limited to One")

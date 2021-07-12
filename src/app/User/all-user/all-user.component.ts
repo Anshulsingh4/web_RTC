@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { AgoraRTCService } from 'src/app/services/agora-rtc.service';
 
 @Component({
   selector: 'app-all-user',
@@ -8,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AllUserComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private agoraRTC: AgoraRTCService, private route: ActivatedRoute) { }
   chatBtn: string = "btn-primary";
   usersBtn: boolean = false;
   usersDetail: boolean = false;
@@ -16,7 +17,10 @@ export class AllUserComponent implements OnInit {
   allUser = []
 
   ngOnInit(): void {
-
+    this.agoraRTC.agora1.subscribe((data) => {
+      console.log(data, "Get Member")
+      this.allUser = data
+    })
   }
 
 }

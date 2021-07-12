@@ -1,7 +1,11 @@
 <!-- <button type="button" class=" btn btn-{{usersBtn ? 'primary' : 'secondary'}} px-5" (click)=onUsers()>Users</button> -->
-<div class="main">
-    <!-- <p *ngFor="let user of allUser">
-        {{user.name}}
-    </p> -->
-    Hello for all user
+<div class="main container">
+    <div class="chat">
+        <p *ngFor="let user of allUser">
+            <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/768px-User_icon_2.svg.png">
+            <br>
+            <strong>{{user.toUpperCase()}}</strong>
+        </p>
+    </div>
 </div>

@@ -32,6 +32,7 @@ export class AgoraRtmService {
       console.log(err, 'Error')
     }
   }
+
   joinChannel() {
     //create Channel
     console.log("I am in Join channel")
@@ -66,10 +67,19 @@ export class AgoraRtmService {
   onConnectionStateChanged() {
 
   }
-  onChannelMessage = (message, memberId) => {
-    let emitData = { type: 'ChannelMessage', message: message.text, memberId, self: false };
-    console.log(emitData, "Data emitted")
-    this.agora2.emit(emitData);
+  onChannelMessage = async (message, memberId) => {
+    if (message.messageType === 'IMAGE') {
+      console.log(message, "ch")
+      const blob = await this.rtm.client.downloadMedia(message.mediaId)
+      console.log(blob, "blob")
+      let emitData = { type: 'ChannelMessage', blob, msg: message, memberId, self: false };
+      this.agora2.emit(emitData);
+    }
+    if (message.messageType == "TEXT") {
+      let emitData = { type: 'ChannelMessage', msg: message, memberId, self: false };
+      console.log(emitData)
+      this.agora2.emit(emitData);
+    }
   }
   onMemberJoin() {
 
@@ -83,23 +93,32 @@ export class AgoraRtmService {
     //use send message func
   }
 
-  sendChannelMessage(data, id) {
-    //processing
-    //use send message func
-    // console.log(userId, data)
-    if (data) {
-      this.sendMessage({ msg: data.message, type: 'channelMessage', userId: id })
+  sendChannelMessage(message) {
+    if (message) {
+      this.sendMessage({ message, type: "channel" })
     }
+
   }
 
   async sendMessage(data) {
     console.log("In send message fn", data)
-    // data.msg = data.msg + "%$#@!" + data.userId 
-    // if (message.type === 'channelMessage') {
-    await this.rtm.channel.sendMessage({ "text": data.msg, "messageType": "TEXT" })
-    // }
+    await this.rtm.channel.sendMessage({ "text": data.message.message, "messageType": "TEXT" })
   }
 
+  async sendImage(file) {
+    const mediaMessage = await this.rtm.client.createMediaMessageByUploading(file, {
+      messageType: 'IMAGE',
+      fileName: file.name,
+      description: 'send image',
+    })
+    console.log(mediaMessage, "media")
+    this.rtm.channel.sendMessage(mediaMessage).then(() => {
+      console.log("Your code for handling the event when the channel message is successfully sent.")
+    }).catch(error => {
+      console.log(error)
+    });
 
 
+
+  }
 }

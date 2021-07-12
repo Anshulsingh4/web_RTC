@@ -16,18 +16,20 @@ export class VideMeetComponent implements OnInit {
   btnUsersColor: string;
   btnChatColor: string = 'btn-primary';
   cnt = 0;
+  userId: string;
   constructor(private agoraRTC: AgoraRTCService,
     private agoraRTM: AgoraRtmService,
     private route: ActivatedRoute) { }
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      this.agoraRTM.initRtmSession(params.get('userId'))
-      this.agoraRTC.screenjoin();
+      this.userId = params.get('userId')
+      this.agoraRTM.initRtmSession(this.userId)
+      this.agoraRTC.screenjoin(this.userId);
       this.agoraRTC.createBothTracks().then(() => {
         this.agoraRTC.streaming.next(true)
         console.log(params, "FFFFFFF")
 
-        this.agoraRTC.join(params.get('userId')).then(
+        this.agoraRTC.join(this.userId).then(
           () => {
             this.agoraRTC.publish()
             // this.agoraRTC.startCall()

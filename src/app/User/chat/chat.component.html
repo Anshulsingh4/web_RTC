@@ -1,14 +1,83 @@
-<div class="main my-2">
+<div class="container content">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body height3">
+                    <ul class="chat-list" *ngFor="let msg of message">
+                        <li class="in" *ngIf="!msg.self">
+                            <div class="chat-img">
+                                <img alt="Avtar"
+                                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/768px-User_icon_2.svg.png">
+                            </div>
+                            <div class="chat-body">
+                                <div class="chat-message">
+                                    <h5>{{msg.memberId}}</h5>
+                                    <p *ngIf="msg.message">
+                                        {{msg.message}}
+                                    </p>
+                                    <div *ngIf="msg.isg">
+                                        <a href={{msg.isg}} download="image">
+                                            <img src={{msg.isg}} style="width:200px; height:150px;"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="out" *ngIf="msg.self">
+                            <div class="chat-img">
+                                <img alt="Avtar"
+                                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/768px-User_icon_2.svg.png">
+                            </div>
+                            <div class="chat-body">
+                                <div class="chat-message">
+                                    <h5>{{msg.memberId}}</h5>
+                                    <p>
+                                        {{msg.message}}
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <div id="img"></div>
+                    </ul>
+
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend ml-3">
+                        <span class="input-group-text " id="basic-addon1">Message</span>
+                    </div>
+                    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+                        <input type="text" class="form-control " placeholder="Type Your Message" name="message" ngModel>
+
+                    </form>
+                </div>
+                <hr>
+                <form (ngSubmit)="onSubmitImage()">
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Share Image</label>
+                        <input class="form-control" type="file" (change)="onChange($event)">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send</button>
+                </form>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+
+
+<!-- <div class="main my-2">
     <form (ngSubmit)='onSubmit(f)' #f='ngForm'>
-        <div *ngFor='let message of messages'>
+        <div *ngFor='let msg of message'>
             <div class="container">
                 <div *ngIf="message.self" class="chat">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/768px-User_icon_2.svg.png"
                         class="right">
                     <p>
-                        <strong>{{message.memberId}}</strong>
+                        <strong>{{msg.memberId}}</strong>
                         <br>
-                        {{message.message}}
+                        {{msg.message}}
 
                     </p>
                 </div>
@@ -16,21 +85,24 @@
                     <img
                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/768px-User_icon_2.svg.png">
                     <p>
-                        <strong>{{message.memberId}}</strong>
+                        <strong>{{msg.memberId}}</strong>
                         <br>
-                        {{message.message}}
+                        {{msg.message}}
 
                     </p>
                 </div>
             </div>
         </div>
-        <!-- <div class="container darker">
-                <img src="/w3images/avatar_g2.jpg" alt="Avatar"  class="right">
-                <p>Hey! I'm fine. Thanks for asking!</p>
-              </div> -->
         <div class="msg my-2 mx-1">
             <input type="text" placeholder="Type your message" name='message' id='message' ngModel required>
             <button type="submit" [disabled]="!f.valid">Send</button>
         </div>
     </form>
-</div>
+    <form (ngSubmit)="onSubmitImage()">
+        <div class="mb-3">
+            <label for="formFile" class="form-label">Share Image</label>
+            <input class="form-control" type="file" (change)="onChange($event)">
+        </div>
+        <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+</div> -->
